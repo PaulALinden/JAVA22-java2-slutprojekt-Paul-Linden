@@ -1,13 +1,13 @@
 package view;
 
+import controller.ProductionHandler;
 import model.units.Buffer;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class BufferQuantityProgressBar extends  JProgressBar{
-
-    public static JProgressBar bufferQuantityProgressbar(Buffer buffer){
+    protected static JProgressBar bufferQuantityProgressbar(ProductionHandler productionHandler){
 
         JProgressBar progressBar = new JProgressBar();
         progressBar.setMinimum(0);
@@ -15,17 +15,17 @@ public class BufferQuantityProgressBar extends  JProgressBar{
         progressBar.setStringPainted(true); // Display percentage
         progressBar.setValue(0);
 
-        bufferQuantityUpdater(buffer, progressBar);
+        bufferQuantityUpdater(progressBar, productionHandler);
 
         return progressBar;
     }
-    private static void bufferQuantityUpdater(Buffer buffer, JProgressBar progressBar) {
+    private static void bufferQuantityUpdater(JProgressBar progressBar, ProductionHandler productionHandler) {
         SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
             @Override
             protected Void doInBackground() throws Exception {
                 while (true) {
                     SwingUtilities.invokeLater(() -> {
-                        progressBar.setValue(buffer.getBufferSize());
+                        progressBar.setValue(productionHandler.displayBufferSize());
                         int value = progressBar.getValue();
                         if (value <= 10) {
                             progressBar.setForeground(Color.RED);

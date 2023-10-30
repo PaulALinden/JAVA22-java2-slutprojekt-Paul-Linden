@@ -3,11 +3,17 @@ package model.persons;
 import model.units.Buffer;
 import model.units.Unit;
 
+import java.io.Serializable;
 import java.util.Random;
 
-public class Producer implements Runnable{
+public class Producer implements Runnable, Serializable {
 
     Buffer buffer = null;
+
+    public String getId() {
+        return id;
+    }
+
     String id;
     boolean isRunning = true;
     public void setRunning(boolean running) {

@@ -2,9 +2,10 @@ package model.persons;
 
 import model.units.Buffer;
 
+import java.io.Serializable;
 import java.util.Random;
 
-public class Consumer implements Runnable{
+public class Consumer implements Runnable, Serializable {
 
     Buffer buffer = null;
     boolean isRunning = true;

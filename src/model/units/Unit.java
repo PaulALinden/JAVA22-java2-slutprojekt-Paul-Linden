@@ -1,6 +1,8 @@
 package model.units;
 
-public class Unit {
+import java.io.Serializable;
+
+public class Unit implements Serializable {
     String id = "";
 
     public Unit(String id) {

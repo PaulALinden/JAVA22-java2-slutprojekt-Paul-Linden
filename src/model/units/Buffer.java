@@ -1,11 +1,12 @@
 package model.units;
 
+import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.Queue;
 
-public class Buffer {
+public class Buffer implements Serializable {
 
-    Queue<Unit> buffer = new LinkedList<Unit>();
+    Queue<Unit> buffer = new LinkedList<>();
     public int getBufferSize() {
         return buffer.size();
     }
