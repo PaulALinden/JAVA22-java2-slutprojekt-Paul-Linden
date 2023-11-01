@@ -1,0 +1,2 @@
+Buffer is under 10%
+Average production: 0.0 units per 10 seconds

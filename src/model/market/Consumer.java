@@ -1,4 +1,4 @@
-package model.persons;
+package model.market;
 
 import model.units.Buffer;
 
@@ -7,7 +7,7 @@ import java.util.Random;
 
 public class Consumer implements Runnable, Serializable {
 
-    Buffer buffer = null;
+    private final Buffer buffer;
     boolean isRunning = true;
 
     public Consumer(Buffer buffer) {
@@ -16,20 +16,24 @@ public class Consumer implements Runnable, Serializable {
 
     @Override
     public void run() {
-        Random random = new Random();
-        int consumingSpeed = random.nextInt(10) + 1;
-        consumingSpeed *= 1000;
+        int consumingSpeed = getConsumingSpeed();
 
-        System.out.println("consumingSpeed: " +consumingSpeed);
         while (isRunning) {
             try {
                 Thread.sleep(consumingSpeed);
-                //System.out.println("Consumed: " + buffer.remove());
-                buffer.remove();
+               if (buffer.getBufferSize() != 0) {
+                   buffer.remove();
+               }
             } catch (InterruptedException e) {
 
                 e.printStackTrace();
             }
         }
+    }
+    private static int getConsumingSpeed() {
+        Random random = new Random();
+        int consumingSpeed = random.nextInt(10) + 1;
+        consumingSpeed *= 1000;
+        return consumingSpeed;
     }
 }

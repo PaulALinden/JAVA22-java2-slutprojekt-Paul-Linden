@@ -1,22 +1,22 @@
 package view;
 
-import controller.Filehandler;
 import controller.MarketHandler;
 import controller.ProductionHandler;
-import model.persons.Market;
-import model.units.Buffer;
 
 import javax.swing.*;
 import java.awt.*;
 
 import static view.BufferQuantityProgressBar.bufferQuantityProgressbar;
-import static view.WorkForceAdjusterButtons.WorkForceAdjusterPanel;
+import static view.FileHandlingPanel.fileHandlingPanel;
+import static view.LoggPane.loggPane;
+import static view.ProducerAdjusterPanel.producerAdjusterPanel;
 
 public class MainView {
 
     ProductionHandler productionHandler;
     MarketHandler marketHandler;
-    public MainView(ProductionHandler productionHandler, MarketHandler marketHandler){
+
+    public MainView(ProductionHandler productionHandler, MarketHandler marketHandler) {
         this.productionHandler = productionHandler;
         this.marketHandler = marketHandler;
     }
@@ -26,37 +26,57 @@ public class MainView {
         frame.setPreferredSize(new Dimension(800, 600));
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        JProgressBar bufferQuantityProgressbar = bufferQuantityProgressbar(productionHandler);
-        JPanel workForceAdjusterPanel = WorkForceAdjusterPanel(productionHandler);
+        JPanel topPanel = topPanel(productionHandler);
+        JPanel centerPanel = centerPanel();
+        JPanel bottomPanel = bottomPanel(marketHandler);
 
-        JPanel fileHandling = getFileHandling();
-
-        frame.setLayout(new FlowLayout());
-        frame.add(bufferQuantityProgressbar);
-        frame.add(workForceAdjusterPanel);
-        frame.add(fileHandling);
+        frame.add(topPanel, BorderLayout.NORTH);
+        frame.add(centerPanel, BorderLayout.CENTER);
+        frame.add(bottomPanel, BorderLayout.SOUTH);
 
         frame.pack();
         frame.setVisible(true);
     }
 
-    private JPanel getFileHandling() {
-        JPanel fileHandling = new JPanel();
-        JButton saveButton = new JButton();
-        JButton loadButton = new JButton();
+    private static JPanel topPanel(ProductionHandler productionHandler) {
+        JPanel topPanel = new JPanel();
+        JProgressBar bufferQuantityProgressbar = bufferQuantityProgressbar(productionHandler);
+        JPanel workForceAdjusterPanel = producerAdjusterPanel(productionHandler);
 
-        saveButton.setText("Save");
-        saveButton.addActionListener(e -> {
-            marketHandler.saveMarketCurrentState();
-        });
+        workForceAdjusterPanel.setMaximumSize(new Dimension(200, 100));
+        bufferQuantityProgressbar.setMaximumSize(new Dimension(200, 30));
 
-        loadButton.setText("Load");
-        loadButton.addActionListener(e -> {
-            marketHandler.loadMarketCurrentState();
-        });
+        topPanel.add(getSpacing());
+        topPanel.add(bufferQuantityProgressbar);
+        topPanel.add(getSpacing());
+        topPanel.add(workForceAdjusterPanel);
+        topPanel.add(getSpacing());
 
-        fileHandling.add(saveButton);
-        fileHandling.add(loadButton);
-        return fileHandling;
+        topPanel.setLayout(new BoxLayout(topPanel, BoxLayout.Y_AXIS));
+
+        return topPanel;
+    }
+
+    private static JPanel centerPanel() {
+        JPanel centerPanel = new JPanel();
+
+        centerPanel.add(loggPane());
+
+        return centerPanel;
+    }
+
+    private static JPanel bottomPanel(MarketHandler marketHandler) {
+        JPanel bottomPanel = new JPanel();
+
+        JPanel fileHandling = fileHandlingPanel(marketHandler);
+        bottomPanel.add(fileHandling);
+
+        return bottomPanel;
+    }
+
+    private static JPanel getSpacing() {
+        JPanel spacing = new JPanel();
+        spacing.setPreferredSize(new Dimension(0, 20));
+        return spacing;
     }
 }

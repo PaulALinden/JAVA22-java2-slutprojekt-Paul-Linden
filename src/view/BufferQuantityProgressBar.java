@@ -1,17 +1,17 @@
 package view;
 
 import controller.ProductionHandler;
-import model.units.Buffer;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class BufferQuantityProgressBar extends  JProgressBar{
-    protected static JProgressBar bufferQuantityProgressbar(ProductionHandler productionHandler){
+public class BufferQuantityProgressBar {
+    static boolean isCrit = false;
+    protected static JProgressBar bufferQuantityProgressbar(ProductionHandler productionHandler) {
 
         JProgressBar progressBar = new JProgressBar();
         progressBar.setMinimum(0);
-        progressBar.setMaximum(100);
+        progressBar.setMaximum(productionHandler.retrieveBufferMaxSize());
         progressBar.setStringPainted(true); // Display percentage
         progressBar.setValue(0);
 
@@ -20,19 +20,30 @@ public class BufferQuantityProgressBar extends  JProgressBar{
         return progressBar;
     }
     private static void bufferQuantityUpdater(JProgressBar progressBar, ProductionHandler productionHandler) {
-        SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
+        int bufferSize = productionHandler.retrieveBufferMaxSize();
+        SwingWorker<Void, Void> worker = new SwingWorker<>() {
             @Override
-            protected Void doInBackground() throws Exception {
+            protected Void doInBackground() {
+                //noinspection InfiniteLoopStatement
                 while (true) {
                     SwingUtilities.invokeLater(() -> {
                         progressBar.setValue(productionHandler.displayBufferSize());
                         int value = progressBar.getValue();
-                        if (value <= 10) {
+                        if (value <= (bufferSize * 0.1)) {
                             progressBar.setForeground(Color.RED);
-                        } else if (value >= 90) {
+                            if (!isCrit) {
+                                productionHandler.bufferIsLow();
+                                isCrit = true;
+                            }
+                        } else if (value >= (bufferSize * 0.9)) {
                             progressBar.setForeground(new Color(0, 128, 0));
+                            if (!isCrit) {
+                                productionHandler.bufferIsHigh();
+                                isCrit = true;
+                            }
                         } else {
                             progressBar.setForeground(Color.ORANGE);
+                            isCrit = false;
                         }
                     });
                 }

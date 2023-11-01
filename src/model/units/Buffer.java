@@ -1,22 +1,23 @@
 package model.units;
 
 import java.io.Serializable;
-import java.util.LinkedList;
-import java.util.Queue;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
 
 public class Buffer implements Serializable {
+    int maxSize = 100;
+    BlockingQueue<Unit> buffer = new ArrayBlockingQueue<>(maxSize);
 
-    Queue<Unit> buffer = new LinkedList<>();
     public int getBufferSize() {
         return buffer.size();
     }
+    public int getMaxSize() {return maxSize;}
     public synchronized void add(Unit unit) {
         buffer.add(unit);
         notify();
         //System.out.println(buffer);
     }
-
-    public synchronized Unit remove() {
+    public synchronized void remove() {
         if(buffer.isEmpty()) {
             try {
                 wait();
@@ -24,6 +25,6 @@ public class Buffer implements Serializable {
                 e.printStackTrace();
             }
         }
-        return buffer.remove();
+        buffer.remove();
     }
 }

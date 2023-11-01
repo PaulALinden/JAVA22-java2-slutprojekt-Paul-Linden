@@ -1,16 +1,12 @@
 package main;
 
-import controller.Filehandler;
 import controller.MarketHandler;
 import controller.ProductionHandler;
-import model.persons.Consumer;
-import model.persons.Market;
+import model.market.Market;
 import model.units.Buffer;
 import view.MainView;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import static controller.ConsumerHandler.generateConsumers;
 
 public class Main {
     public static void main(String[] args) {
@@ -18,7 +14,7 @@ public class Main {
         Buffer buffer = new Buffer();
         Market market = new Market();
 
-        //Creating Controllers and adding dependecies(Models)
+        //Creating Controllers and adding dependencies(Models)
         ProductionHandler productionHandler = new ProductionHandler(buffer, market);
         MarketHandler marketHandler = new MarketHandler(market);
 
@@ -27,21 +23,13 @@ public class Main {
 
         //Start GUI
         javax.swing.SwingUtilities.invokeLater(mainView::mainView);
-        generateConsumers(market, buffer);
-    }
 
-    private static void generateConsumers(Market market, Buffer buffer) {
-        //Create random amount of consumers from 3-15.
-        Random random = new Random();
-        int amountOfConsumers = random.nextInt(13) + 3;
-        //Collect consumers and threads
-        List<Consumer> consumers = market.getConsumers();
-        List<Thread> consumersThread = new ArrayList<>();
-        //Print amount of consumers
-        for (int i = 0; i <amountOfConsumers; i++) {
-            market.addConsumer(new Consumer(buffer));
-            consumersThread.add(new Thread(consumers.get(i)));
-            consumersThread.get(i).start();
-        }
+
+        //MOVE TO MAINVIEW !!!!!!!!!!!!!!!!!!
+        //Generate consumers
+        generateConsumers(market, buffer);
+
+        //Starts average count
+        productionHandler.productionAverage();
     }
 }

@@ -1,24 +1,22 @@
 package controller;
 
-import model.persons.Market;
-import model.persons.Producer;
+import model.market.Market;
+import model.market.Producer;
 
-import static controller.Filehandler.readData;
-import static controller.Filehandler.writeData;
+import static controller.FileHandler.readObjectData;
+import static controller.FileHandler.writeObjectData;
 
 public class MarketHandler {
-
     Market market;
-
     public  MarketHandler(Market market){
         this.market = market;
     }
 
     public void saveMarketCurrentState(){
-        writeData(market,"src/data/marketData.txt");
+        writeObjectData(market,"src/data/marketData.txt");
     }
     public void loadMarketCurrentState(){
-        Market currentState = (Market) readData("src/data/marketData.txt");
+        Market currentState = (Market) readObjectData("src/data/marketData.txt");
 
         if (currentState != null) {
             market = currentState;
