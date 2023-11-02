@@ -6,16 +6,16 @@ import model.units.Unit;
 import java.io.Serializable;
 import java.util.Random;
 
-public class Producer extends Market implements Runnable, Serializable {
+public class Producer implements Runnable, Serializable {
 
     private final Buffer buffer;
-    private final String id;
+    private final int id;
     private final int producingSpeed = generateSpeed();
     private static double productionCounter;
     private boolean isRunning = true;
 
     public int getProducingSpeed() {return producingSpeed;}
-    public String getId() {return id;}
+    public int getId() {return id;}
     public void setRunning(boolean running) {
         isRunning = running;
     }
@@ -26,7 +26,7 @@ public class Producer extends Market implements Runnable, Serializable {
         Producer.productionCounter = productionCounter;
     }
 
-    public Producer(Buffer buffer, String id) {
+    public Producer(Buffer buffer, int id) {
         this.buffer = buffer;
         this.id = id;
     }
@@ -36,8 +36,10 @@ public class Producer extends Market implements Runnable, Serializable {
         while (isRunning) {
             try {
                 Thread.sleep(producingSpeed);
-                buffer.add(new Unit(Integer.toString(buffer.getBufferSize())));
-                productionCounter++;
+                if (buffer.getBufferSize() < buffer.getMaxSize()) {
+                    buffer.add(new Unit(Integer.toString(buffer.getBufferSize())));
+                    productionCounter++;
+                }
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

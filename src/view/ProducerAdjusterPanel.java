@@ -11,7 +11,7 @@ public class ProducerAdjusterPanel {
         buttonPanel.setLayout(new GridLayout(2, 3));
 
         JLabel producerLabel = new JLabel("Producers:");
-        JLabel producerAmountLabel = new JLabel("0");
+        JLabel producerAmountLabel = new JLabel(productionHandler.displayWorkForceNumbers());
 
         producerAmountLabel.setBackground(Color.WHITE);
         producerAmountLabel.setOpaque(true);
@@ -21,7 +21,7 @@ public class ProducerAdjusterPanel {
         buttonPanel.add(producerLabel);
         buttonPanel.add(producerAmountLabel);
         buttonPanel.add(addProducerButton(producerAmountLabel, productionHandler));
-        buttonPanel.add(subWorkForceButton(producerAmountLabel, productionHandler));
+        buttonPanel.add(subProducerButton(producerAmountLabel, productionHandler));
 
         return buttonPanel;
     }
@@ -35,7 +35,7 @@ public class ProducerAdjusterPanel {
 
         return addButton;
     }
-    public static JButton subWorkForceButton(JLabel producerAmountTextField, ProductionHandler productionHandler){
+    public static JButton subProducerButton(JLabel producerAmountTextField, ProductionHandler productionHandler){
         JButton subButton = new JButton("Sub");
 
         subButton.addActionListener(e -> {

@@ -5,26 +5,44 @@ import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
 public class Buffer implements Serializable {
-    int maxSize = 100;
-    BlockingQueue<Unit> buffer = new ArrayBlockingQueue<>(maxSize);
+
+    private static volatile Buffer buffer;
+    private int maxSize;
+    private BlockingQueue<Unit> bufferQue;
+
+    private Buffer (int maxSize){
+        this.maxSize = maxSize;
+        bufferQue = new ArrayBlockingQueue<>(maxSize);
+    }
+
+    public static Buffer getInstance(int maxSize) {
+        if (buffer == null) {
+            synchronized (Buffer.class) {
+                if (buffer == null) {
+                    buffer = new Buffer(maxSize);
+                }
+            }
+        }
+        return buffer;
+    }
 
     public int getBufferSize() {
-        return buffer.size();
+        return bufferQue.size();
     }
     public int getMaxSize() {return maxSize;}
     public synchronized void add(Unit unit) {
-        buffer.add(unit);
+        bufferQue.add(unit);
         notify();
         //System.out.println(buffer);
     }
     public synchronized void remove() {
-        if(buffer.isEmpty()) {
+        if(bufferQue.isEmpty()) {
             try {
                 wait();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
-        buffer.remove();
+        bufferQue.remove();
     }
 }

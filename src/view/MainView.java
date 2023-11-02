@@ -1,10 +1,13 @@
 package view;
 
+import controller.ConsumerHandler;
 import controller.MarketHandler;
 import controller.ProductionHandler;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import static view.BufferQuantityProgressBar.bufferQuantityProgressbar;
 import static view.FileHandlingPanel.fileHandlingPanel;
@@ -16,12 +19,55 @@ public class MainView {
     ProductionHandler productionHandler;
     MarketHandler marketHandler;
 
-    public MainView(ProductionHandler productionHandler, MarketHandler marketHandler) {
+    ConsumerHandler consumerHandler;
+    public MainView(ProductionHandler productionHandler, MarketHandler marketHandler, ConsumerHandler consumerHandler) {
         this.productionHandler = productionHandler;
         this.marketHandler = marketHandler;
+        this.consumerHandler = consumerHandler;
     }
+    public void startView(){
+        JFrame frame = new JFrame();
+        frame.setPreferredSize(new Dimension(800, 600));
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-    public void mainView() {
+        JPanel panel = new JPanel(new GridBagLayout());
+        GridBagConstraints constraints = new GridBagConstraints();
+        constraints.insets = new Insets(10, 10, 10, 10);
+
+        JButton startButton = new JButton("Start");
+        JButton continueButton = new JButton("Continue");
+
+        startButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                frame.remove(frame);
+                mainView(productionHandler, marketHandler);
+                consumerHandler.generateConsumers();
+                productionHandler.productionAverage();
+            }
+        });
+
+        continueButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                marketHandler.loadMarketCurrentState();
+                frame.remove(frame);
+                mainView(productionHandler, marketHandler);
+                //Starts average count
+                productionHandler.productionAverage();
+            }
+        });
+
+        constraints.gridx = 0;
+        constraints.gridy = 0;
+        panel.add(startButton, constraints);
+
+        constraints.gridx = 1;
+        panel.add(continueButton, constraints);
+
+        frame.add(panel, BorderLayout.CENTER);
+        frame.pack();
+        frame.setVisible(true);
+    }
+    private static void mainView(ProductionHandler productionHandler, MarketHandler marketHandler) {
         JFrame frame = new JFrame();
         frame.setPreferredSize(new Dimension(800, 600));
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -37,7 +83,6 @@ public class MainView {
         frame.pack();
         frame.setVisible(true);
     }
-
     private static JPanel topPanel(ProductionHandler productionHandler) {
         JPanel topPanel = new JPanel();
         JProgressBar bufferQuantityProgressbar = bufferQuantityProgressbar(productionHandler);
@@ -46,17 +91,16 @@ public class MainView {
         workForceAdjusterPanel.setMaximumSize(new Dimension(200, 100));
         bufferQuantityProgressbar.setMaximumSize(new Dimension(200, 30));
 
-        topPanel.add(getSpacing());
+        topPanel.add(createSpace());
         topPanel.add(bufferQuantityProgressbar);
-        topPanel.add(getSpacing());
+        topPanel.add(createSpace());
         topPanel.add(workForceAdjusterPanel);
-        topPanel.add(getSpacing());
+        topPanel.add(createSpace());
 
         topPanel.setLayout(new BoxLayout(topPanel, BoxLayout.Y_AXIS));
 
         return topPanel;
     }
-
     private static JPanel centerPanel() {
         JPanel centerPanel = new JPanel();
 
@@ -64,7 +108,6 @@ public class MainView {
 
         return centerPanel;
     }
-
     private static JPanel bottomPanel(MarketHandler marketHandler) {
         JPanel bottomPanel = new JPanel();
 
@@ -73,10 +116,15 @@ public class MainView {
 
         return bottomPanel;
     }
-
-    private static JPanel getSpacing() {
+    private static JPanel createSpace() {
         JPanel spacing = new JPanel();
         spacing.setPreferredSize(new Dimension(0, 20));
         return spacing;
     }
+
 }
+
+
+
+
+

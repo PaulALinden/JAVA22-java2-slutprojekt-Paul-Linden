@@ -6,8 +6,8 @@ import java.util.List;
 
 public class Market implements Serializable {
 
-    private List<Producer> producers;
-    private List<Consumer> consumers;
+    private final List<Producer> producers;
+    private final List<Consumer> consumers;
     public Market() {
         this.producers = new ArrayList<>();
         this.consumers = new ArrayList<>();
@@ -31,13 +31,5 @@ public class Market implements Serializable {
                 "producers=" + producers +
                 ", consumers=" + consumers +
                 '}';
-    }
-
-    //To get back objects?????
-    public void restoreProducerState(List<Producer> restoredProducers) {
-        this.producers = restoredProducers;
-    }
-    public void restoreConsumerState(List<Consumer> restoredConsumers) {
-        this.consumers = restoredConsumers;
     }
 }

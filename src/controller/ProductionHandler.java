@@ -32,7 +32,7 @@ public class ProductionHandler {
 
     public void employeeAdd() {
         int employeeNumber = producers.size();
-        market.addProducer(new Producer(buffer, Integer.toString(employeeNumber)));
+        market.addProducer(new Producer(buffer, employeeNumber));
         threads.add(new Thread(producers.get(employeeNumber)));
         threads.get(employeeNumber).start();
 
@@ -49,6 +49,18 @@ public class ProductionHandler {
             writeLogg("Producer removed");
             writeLogg("Current producers: " + producers.size());
         }
+    }
+
+    public void loadEmployee(Producer producer){
+        int employeeNumber = producers.size();
+        producers.add(producer);
+        System.out.println(producers.size());
+        threads.add(new Thread(producers.get(employeeNumber)));
+        threads.get(employeeNumber).start();
+
+        writeLogg("Producer restored. Production units/milli.sec: " +
+                producers.get(employeeNumber).getProducingSpeed());
+        writeLogg("Current producers: " + producers.size());
     }
 
     public int displayBufferSize() {

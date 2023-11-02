@@ -21,16 +21,18 @@ public class FileHandler implements Serializable {
         return messageObject;
     }
 
-    public static void writeObjectData(Market stringObject, String path) {
+    public static boolean writeObjectData(Market stringObject, String path) {
         try (ObjectOutputStream ous = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream(path)))) {
             ous.writeObject(stringObject);
         } catch (Exception e) {
             System.out.println(e);
+            return false;
         }
+        return true;
     }
 
     public static void writeLogg(String loggString) {
-        try (BufferedWriter br = new BufferedWriter(new FileWriter("src/data/logg.txt", true))) {
+        try (BufferedWriter br = new BufferedWriter(new FileWriter("src/logg/logg.txt", true))) {
             br.write(loggString);
             br.newLine();
             br.flush();
@@ -42,7 +44,7 @@ public class FileHandler implements Serializable {
     public static void readLogg(JTextPane textPane) {
         List<String> lines = new ArrayList<>();
 
-        try (BufferedReader br = new BufferedReader(new FileReader("src/data/logg.txt"))) {
+        try (BufferedReader br = new BufferedReader(new FileReader("src/logg/logg.txt"))) {
             String line = br.readLine();
             while (line != null) {
                 lines.add(line);

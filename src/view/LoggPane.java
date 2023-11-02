@@ -22,7 +22,7 @@ public class LoggPane {
             protected Void doInBackground() throws Exception {
                 while (true) {
                     readLogg(loggTextPane);
-                    Thread.sleep(1000); // Wait for 1 second before checking again
+                    Thread.sleep(1000);
                 }
             }
         };
