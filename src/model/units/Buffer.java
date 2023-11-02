@@ -33,7 +33,6 @@ public class Buffer implements Serializable {
     public synchronized void add(Unit unit) {
         bufferQue.add(unit);
         notify();
-        //System.out.println(buffer);
     }
     public synchronized void remove() {
         if(bufferQue.isEmpty()) {

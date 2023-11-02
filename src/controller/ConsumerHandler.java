@@ -35,7 +35,7 @@ public class ConsumerHandler {
 
     public void loadConsumers(Consumer consumer) {
         int consumerNumber = consumers.size();
-        consumers.add(new Consumer(buffer));
+        consumers.add(consumer);
         consumersThread.add(new Thread(consumers.get(consumerNumber)));
         consumersThread.getLast().start();
     }
