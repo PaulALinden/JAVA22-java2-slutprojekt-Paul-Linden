@@ -4,7 +4,7 @@ import controller.ConsumerHandler;
 import controller.FileHandler;
 import controller.MarketHandler;
 import controller.ProductionHandler;
-import model.LoggModel;
+import model.logg.LoggModel;
 import model.market.Market;
 import model.units.Buffer;
 import view.MainView;

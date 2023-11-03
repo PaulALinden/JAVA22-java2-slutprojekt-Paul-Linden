@@ -9,13 +9,12 @@ import java.util.Random;
 public class Producer implements Runnable, Serializable {
 
     private final Buffer buffer;
-    private final int id;
     private final int producingSpeed = generateSpeed();
     private static double productionCounter;
     private boolean isRunning = true;
 
     public int getProducingSpeed() {return producingSpeed;}
-    public int getId() {return id;}
+
     public void setRunning(boolean running) {
         isRunning = running;
     }
@@ -28,7 +27,6 @@ public class Producer implements Runnable, Serializable {
 
     public Producer(Buffer buffer, int id) {
         this.buffer = buffer;
-        this.id = id;
     }
 
     @Override

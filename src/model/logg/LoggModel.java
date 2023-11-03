@@ -1,4 +1,4 @@
-package model;
+package model.logg;
 
 public class LoggModel {
     String filePath;
@@ -10,7 +10,4 @@ public class LoggModel {
         return filePath;
     }
 
-    public void setFilePath(String filePath) {
-        this.filePath = filePath;
-    }
 }

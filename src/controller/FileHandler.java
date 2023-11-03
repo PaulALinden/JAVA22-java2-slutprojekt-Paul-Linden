@@ -1,6 +1,6 @@
 package controller;
 
-import model.LoggModel;
+import model.logg.LoggModel;
 import model.market.Market;
 
 import javax.swing.*;

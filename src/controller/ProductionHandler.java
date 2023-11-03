@@ -63,7 +63,7 @@ public class ProductionHandler {
         writeLogg("Current producers: " + producers.size());
     }
 
-    public int displayBufferSize() {
+    public synchronized int displayBufferSize() {
         return buffer.getBufferSize();
     }
 
