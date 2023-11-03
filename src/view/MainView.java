@@ -39,7 +39,7 @@ public class MainView {
 
         startButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                frame.remove(frame);
+
                 mainView(productionHandler, marketHandler);
                 consumerHandler.generateConsumers();
                 productionHandler.productionAverage();
@@ -49,9 +49,8 @@ public class MainView {
         continueButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 marketHandler.loadMarketCurrentState();
-                frame.remove(frame);
+
                 mainView(productionHandler, marketHandler);
-                //Starts average count
                 productionHandler.productionAverage();
             }
         });

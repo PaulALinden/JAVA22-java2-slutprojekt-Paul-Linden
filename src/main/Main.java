@@ -15,7 +15,7 @@ public class Main {
         Buffer buffer = Buffer.getInstance(100);
         Market market = new Market();
         LoggModel textLogg = new LoggModel("src/logg/logg.txt");
-        LoggModel saveState = new LoggModel("src/logg/marketData.txt");
+        LoggModel saveState = new LoggModel("src/logg/market.txt");
 
         //Creating Controllers and adding dependencies(Models)
         ProductionHandler productionHandler = new ProductionHandler(buffer, market);

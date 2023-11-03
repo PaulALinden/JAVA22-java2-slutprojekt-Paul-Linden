@@ -20,13 +20,12 @@ public class FileHandler implements Serializable {
         FileHandler.saveState = saveState;
     }
 
-    public static FileHandler getInstance(LoggModel textLogg,LoggModel saveState) {
+    public static void getInstance(LoggModel textLogg, LoggModel saveState) {
 
         if (fileHandler == null) {
             fileHandler = new FileHandler(textLogg, saveState);
         }
 
-        return fileHandler;
     }
 
     public static Object readObjectData() {
@@ -60,7 +59,7 @@ public class FileHandler implements Serializable {
         }
     }
 
-    public static void readLogg(JTextPane textPane) {
+    public synchronized static void readLogg(JTextPane textPane) {
         List<String> lines = new ArrayList<>();
 
         try (BufferedReader br = new BufferedReader(new FileReader(textLogg.getFilePath()))) {

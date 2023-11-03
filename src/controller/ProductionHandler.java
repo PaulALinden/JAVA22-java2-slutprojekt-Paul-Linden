@@ -54,7 +54,6 @@ public class ProductionHandler {
     public void loadEmployee(Producer producer){
         int employeeNumber = producers.size();
         producers.add(producer);
-        System.out.println(producers.size());
         threads.add(new Thread(producers.get(employeeNumber)));
         threads.get(employeeNumber).start();
 
@@ -84,12 +83,14 @@ public class ProductionHandler {
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-                double average = getProductionCounter();
-                average = average / producers.size();
-                average = Math.round(average * 10.0) / 10.0;
+                if (!producers.isEmpty()) {
+                    double average = getProductionCounter();
+                    average = average / producers.size();
+                    average = Math.round(average * 10.0) / 10.0;
 
-                writeLogg("Average production: " + average + " units per 10 seconds");
-                setProductionCounter(0);
+                    writeLogg("Average production: " + average + " units per 10 seconds");
+                    setProductionCounter(0);
+                }
             }
         }, 10000, 10000); // Schedule the task to run every 10 seconds
     }

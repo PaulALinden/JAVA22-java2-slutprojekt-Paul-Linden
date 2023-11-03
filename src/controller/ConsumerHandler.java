@@ -37,6 +37,6 @@ public class ConsumerHandler {
         int consumerNumber = consumers.size();
         consumers.add(consumer);
         consumersThread.add(new Thread(consumers.get(consumerNumber)));
-        consumersThread.getLast().start();
+        consumersThread.get(consumerNumber).start();
     }
 }

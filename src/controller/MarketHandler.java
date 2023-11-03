@@ -3,8 +3,10 @@ package controller;
 import model.market.Consumer;
 import model.market.Market;
 import model.market.Producer;
+import model.units.Buffer;
 
 import static controller.FileHandler.*;
+import static model.units.Buffer.buffer;
 
 public class MarketHandler {
     Market market;
@@ -27,15 +29,20 @@ public class MarketHandler {
     }
     public void loadMarketCurrentState(){
         Market currentState = (Market) readObjectData();
-
         if (currentState != null) {
             market = currentState;
+
+            buffer.setBufferQue(market.getCurrentQue());
+
             for (Producer producer : market.getProducers()) {
                productionHandler.loadEmployee(producer);
             }
+
             for (Consumer consumer : market.getConsumers()) {
                 consumerHandler.loadConsumers(consumer);
             }
+
+            System.out.println("con"+market.getConsumers().size());
             writeLogg("Market data successfully loaded.");
         } else {
             writeLogg("Failed to load market data.");

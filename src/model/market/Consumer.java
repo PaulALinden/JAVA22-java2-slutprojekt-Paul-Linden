@@ -25,7 +25,6 @@ public class Consumer implements Runnable, Serializable {
                    buffer.remove();
                }
             } catch (InterruptedException e) {
-
                 e.printStackTrace();
             }
         }

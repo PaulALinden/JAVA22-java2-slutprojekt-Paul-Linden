@@ -5,10 +5,9 @@ import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
 public class Buffer implements Serializable {
-
-    private static volatile Buffer buffer;
+    public static volatile Buffer buffer;
     private final int maxSize;
-    private final BlockingQueue<Unit> bufferQue;
+    private static BlockingQueue<Unit> bufferQue = null;
 
     private Buffer (int maxSize){
         this.maxSize = maxSize;
@@ -25,15 +24,24 @@ public class Buffer implements Serializable {
         }
         return buffer;
     }
+    public BlockingQueue<Unit> getBufferQue() {
+        return bufferQue;
+    }
+    public void setBufferQue(BlockingQueue<Unit> que) {
+        bufferQue = que;
+    }
     public int getBufferSize() {
         return bufferQue.size();
     }
     public int getMaxSize() {return maxSize;}
     public synchronized void add(Unit unit) {
-        bufferQue.add(unit);
-        notify();
+        if (bufferQue.size() != maxSize) {
+            bufferQue.add(unit);
+            notify();
+        }
     }
     public synchronized void remove() {
+        System.out.println(bufferQue.size());
         if(bufferQue.isEmpty()) {
             try {
                 wait();
