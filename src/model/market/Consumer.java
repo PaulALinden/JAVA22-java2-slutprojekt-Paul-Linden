@@ -20,15 +20,18 @@ public class Consumer implements Runnable, Serializable {
 
         while (isRunning) {
             try {
+                //noinspection BusyWait
                 Thread.sleep(consumingSpeed);
-               if (buffer.getBufferSize() != 0) {
-                   buffer.remove();
-               }
+                if (buffer.getBufferSize() != 0) {
+                    buffer.remove();
+                }
             } catch (InterruptedException e) {
+                //noinspection CallToPrintStackTrace
                 e.printStackTrace();
             }
         }
     }
+
     private static int getConsumingSpeed() {
         Random random = new Random();
         int consumingSpeed = random.nextInt(10) + 1;

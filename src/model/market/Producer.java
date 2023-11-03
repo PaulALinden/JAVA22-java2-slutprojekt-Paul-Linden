@@ -13,19 +13,23 @@ public class Producer implements Runnable, Serializable {
     private static double productionCounter;
     private boolean isRunning = true;
 
-    public int getProducingSpeed() {return producingSpeed;}
+    public int getProducingSpeed() {
+        return producingSpeed;
+    }
 
     public void setRunning(boolean running) {
         isRunning = running;
     }
+
     public static double getProductionCounter() {
         return productionCounter;
     }
+
     public static void setProductionCounter(double productionCounter) {
         Producer.productionCounter = productionCounter;
     }
 
-    public Producer(Buffer buffer, int id) {
+    public Producer(Buffer buffer) {
         this.buffer = buffer;
     }
 
@@ -33,17 +37,20 @@ public class Producer implements Runnable, Serializable {
     public void run() {
         while (isRunning) {
             try {
+                //noinspection BusyWait
                 Thread.sleep(producingSpeed);
                 if (buffer.getBufferSize() < buffer.getMaxSize()) {
                     buffer.add(new Unit(Integer.toString(buffer.getBufferSize())));
                     productionCounter++;
                 }
             } catch (InterruptedException e) {
+                //noinspection CallToPrintStackTrace
                 e.printStackTrace();
             }
         }
     }
-    public int generateSpeed(){
+
+    public int generateSpeed() {
         Random random = new Random();
         int speed;
         speed = random.nextInt(10) + 1;

@@ -4,6 +4,7 @@ import controller.MarketHandler;
 
 import javax.swing.*;
 
+//Class that contains the gui for saving and loading file in application
 public class FileHandlingPanel {
 
     public static JPanel fileHandlingPanel(MarketHandler marketHandler) {

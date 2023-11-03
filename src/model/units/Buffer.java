@@ -9,7 +9,7 @@ public class Buffer implements Serializable {
     private final int maxSize;
     private static BlockingQueue<Unit> bufferQue = null;
 
-    private Buffer (int maxSize){
+    private Buffer(int maxSize) {
         this.maxSize = maxSize;
         bufferQue = new ArrayBlockingQueue<>(maxSize);
     }
@@ -24,28 +24,37 @@ public class Buffer implements Serializable {
         }
         return buffer;
     }
+
     public BlockingQueue<Unit> getBufferQue() {
         return bufferQue;
     }
+
     public void setBufferQue(BlockingQueue<Unit> que) {
         bufferQue = que;
     }
+
     public int getBufferSize() {
         return bufferQue.size();
     }
-    public int getMaxSize() {return maxSize;}
+
+    public int getMaxSize() {
+        return maxSize;
+    }
+
     public synchronized void add(Unit unit) {
         if (bufferQue.size() != maxSize) {
             bufferQue.add(unit);
             notify();
         }
     }
+
     public synchronized void remove() {
         System.out.println(bufferQue.size());
-        if(bufferQue.isEmpty()) {
+        if (bufferQue.isEmpty()) {
             try {
                 wait();
             } catch (InterruptedException e) {
+                //noinspection CallToPrintStackTrace
                 e.printStackTrace();
             }
         }

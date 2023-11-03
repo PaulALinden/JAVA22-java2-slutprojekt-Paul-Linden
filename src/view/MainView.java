@@ -6,26 +6,27 @@ import controller.ProductionHandler;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import static view.BufferQuantityProgressBar.bufferQuantityProgressbar;
 import static view.FileHandlingPanel.fileHandlingPanel;
 import static view.LoggPane.loggPane;
 import static view.ProducerAdjusterPanel.producerAdjusterPanel;
 
-public class MainView {
+//Class that creates and handles the main GUI
 
+public class MainView {
     ProductionHandler productionHandler;
     MarketHandler marketHandler;
 
     ConsumerHandler consumerHandler;
+
     public MainView(ProductionHandler productionHandler, MarketHandler marketHandler, ConsumerHandler consumerHandler) {
         this.productionHandler = productionHandler;
         this.marketHandler = marketHandler;
         this.consumerHandler = consumerHandler;
     }
-    public void startView(){
+
+    public void startView() {
         JFrame frame = new JFrame();
         frame.setPreferredSize(new Dimension(800, 600));
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -37,22 +38,18 @@ public class MainView {
         JButton startButton = new JButton("Start");
         JButton continueButton = new JButton("Continue");
 
-        startButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
+        startButton.addActionListener(e -> {
 
-                mainView(productionHandler, marketHandler);
-                consumerHandler.generateConsumers();
-                productionHandler.productionAverage();
-            }
+            mainView(productionHandler, marketHandler);
+            consumerHandler.generateConsumers();
+            productionHandler.productionAverage();
         });
 
-        continueButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                marketHandler.loadMarketCurrentState();
+        continueButton.addActionListener(e -> {
+            marketHandler.loadMarketCurrentState();
 
-                mainView(productionHandler, marketHandler);
-                productionHandler.productionAverage();
-            }
+            mainView(productionHandler, marketHandler);
+            productionHandler.productionAverage();
         });
 
         constraints.gridx = 0;
@@ -66,6 +63,7 @@ public class MainView {
         frame.pack();
         frame.setVisible(true);
     }
+
     private static void mainView(ProductionHandler productionHandler, MarketHandler marketHandler) {
         JFrame frame = new JFrame();
         frame.setPreferredSize(new Dimension(800, 600));
@@ -82,6 +80,7 @@ public class MainView {
         frame.pack();
         frame.setVisible(true);
     }
+
     private static JPanel topPanel(ProductionHandler productionHandler) {
         JPanel topPanel = new JPanel();
         JProgressBar bufferQuantityProgressbar = bufferQuantityProgressbar(productionHandler);
@@ -100,6 +99,7 @@ public class MainView {
 
         return topPanel;
     }
+
     private static JPanel centerPanel() {
         JPanel centerPanel = new JPanel();
 
@@ -107,6 +107,7 @@ public class MainView {
 
         return centerPanel;
     }
+
     private static JPanel bottomPanel(MarketHandler marketHandler) {
         JPanel bottomPanel = new JPanel();
 
@@ -115,6 +116,7 @@ public class MainView {
 
         return bottomPanel;
     }
+
     private static JPanel createSpace() {
         JPanel spacing = new JPanel();
         spacing.setPreferredSize(new Dimension(0, 20));

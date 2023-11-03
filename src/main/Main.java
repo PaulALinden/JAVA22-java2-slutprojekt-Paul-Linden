@@ -10,7 +10,12 @@ import model.units.Buffer;
 import view.MainView;
 
 public class Main {
+
+    /*
+    * Main file for program where all necessary inits is done.
+    */
     public static void main(String[] args) {
+
         //Models
         Buffer buffer = Buffer.getInstance(100);
         Market market = new Market();

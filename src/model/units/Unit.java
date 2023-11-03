@@ -6,11 +6,11 @@ public class Unit implements Serializable {
     String id;
 
     public Unit(String id) {
-        this.id=id;
+        this.id = id;
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return id;
     }
 }

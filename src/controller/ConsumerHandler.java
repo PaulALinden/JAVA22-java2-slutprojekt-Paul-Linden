@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+//Controller for consumer actions
 public class ConsumerHandler {
     Market market;
     Buffer buffer;
@@ -22,10 +23,10 @@ public class ConsumerHandler {
     }
 
     public void generateConsumers() {
-        //Create random amount of consumers from 3-15.
+
         Random random = new Random();
         int amountOfConsumers = random.nextInt(13) + 3;
-        //Print amount of consumers
+
         for (int i = 0; i < amountOfConsumers; i++) {
             market.addConsumer(new Consumer(buffer));
             consumersThread.add(new Thread(consumers.get(i)));

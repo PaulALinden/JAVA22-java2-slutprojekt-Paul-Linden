@@ -5,8 +5,9 @@ import controller.ProductionHandler;
 import javax.swing.*;
 import java.awt.*;
 
+//Class that creates the Panel for adjusting number of producers and displaying amount of producers active
 public class ProducerAdjusterPanel {
-    public static JPanel producerAdjusterPanel(ProductionHandler productionHandler){
+    public static JPanel producerAdjusterPanel(ProductionHandler productionHandler) {
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new GridLayout(2, 3));
 
@@ -16,7 +17,7 @@ public class ProducerAdjusterPanel {
         producerAmountLabel.setBackground(Color.WHITE);
         producerAmountLabel.setOpaque(true);
         producerAmountLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        producerAmountLabel.setPreferredSize(new Dimension(25,25));
+        producerAmountLabel.setPreferredSize(new Dimension(25, 25));
 
         buttonPanel.add(producerLabel);
         buttonPanel.add(producerAmountLabel);
@@ -25,7 +26,8 @@ public class ProducerAdjusterPanel {
 
         return buttonPanel;
     }
-    public static JButton addProducerButton(JLabel producerAmountTextField, ProductionHandler productionHandler){
+
+    public static JButton addProducerButton(JLabel producerAmountTextField, ProductionHandler productionHandler) {
         JButton addButton = new JButton("Add");
 
         addButton.addActionListener(e -> {
@@ -35,7 +37,8 @@ public class ProducerAdjusterPanel {
 
         return addButton;
     }
-    public static JButton subProducerButton(JLabel producerAmountTextField, ProductionHandler productionHandler){
+
+    public static JButton subProducerButton(JLabel producerAmountTextField, ProductionHandler productionHandler) {
         JButton subButton = new JButton("Sub");
 
         subButton.addActionListener(e -> {

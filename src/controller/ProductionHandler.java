@@ -12,7 +12,7 @@ import java.util.TimerTask;
 import static controller.FileHandler.writeLogg;
 import static model.market.Producer.getProductionCounter;
 import static model.market.Producer.setProductionCounter;
-
+//Class that contains methods for handling production
 public class ProductionHandler {
     Buffer buffer;
     Market market;
@@ -32,7 +32,7 @@ public class ProductionHandler {
 
     public void employeeAdd() {
         int employeeNumber = producers.size();
-        market.addProducer(new Producer(buffer, employeeNumber));
+        market.addProducer(new Producer(buffer));
         threads.add(new Thread(producers.get(employeeNumber)));
         threads.get(employeeNumber).start();
 

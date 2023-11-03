@@ -3,31 +3,33 @@ package controller;
 import model.market.Consumer;
 import model.market.Market;
 import model.market.Producer;
-import model.units.Buffer;
 
 import static controller.FileHandler.*;
 import static model.units.Buffer.buffer;
 
+//Class that collects the programs state for easier retrieving
 public class MarketHandler {
     Market market;
     ProductionHandler productionHandler;
     ConsumerHandler consumerHandler;
-    public  MarketHandler(Market market, ProductionHandler productionHandler, ConsumerHandler consumerHandler){
+
+    public MarketHandler(Market market, ProductionHandler productionHandler, ConsumerHandler consumerHandler) {
         this.market = market;
         this.productionHandler = productionHandler;
         this.consumerHandler = consumerHandler;
     }
 
-    public void saveMarketCurrentState(){
+    public void saveMarketCurrentState() {
         boolean isSaved = writeObjectData(market);
 
         if (isSaved) {
             writeLogg("Current state saved.");
-        }else {
+        } else {
             writeLogg("Failed to save current state.");
         }
     }
-    public void loadMarketCurrentState(){
+
+    public void loadMarketCurrentState() {
         Market currentState = (Market) readObjectData();
         if (currentState != null) {
             market = currentState;
@@ -35,14 +37,14 @@ public class MarketHandler {
             buffer.setBufferQue(market.getCurrentQue());
 
             for (Producer producer : market.getProducers()) {
-               productionHandler.loadEmployee(producer);
+                productionHandler.loadEmployee(producer);
             }
 
             for (Consumer consumer : market.getConsumers()) {
                 consumerHandler.loadConsumers(consumer);
             }
 
-            System.out.println("con"+market.getConsumers().size());
+            System.out.println("con" + market.getConsumers().size());
             writeLogg("Market data successfully loaded.");
         } else {
             writeLogg("Failed to load market data.");

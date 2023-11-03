@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+//Class that contains methods for reading and writing logg and programs current state
+
 public class FileHandler implements Serializable {
 
     static FileHandler fileHandler;
@@ -34,6 +36,7 @@ public class FileHandler implements Serializable {
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(saveState.getFilePath()))) {
             messageObject = ois.readObject();
         } catch (Exception e) {
+            //noinspection CallToPrintStackTrace
             e.printStackTrace();
         }
         return messageObject;
@@ -43,6 +46,7 @@ public class FileHandler implements Serializable {
         try (ObjectOutputStream ous = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream(saveState.getFilePath())))) {
             ous.writeObject(stringObject);
         } catch (Exception e) {
+            //noinspection ThrowablePrintedToSystemOut
             System.out.println(e);
             return false;
         }
@@ -70,6 +74,7 @@ public class FileHandler implements Serializable {
                 line = br.readLine();
             }
         } catch (IOException e) {
+            //noinspection CallToPrintStackTrace
             e.printStackTrace();
         }
         // Reverse the order of lines

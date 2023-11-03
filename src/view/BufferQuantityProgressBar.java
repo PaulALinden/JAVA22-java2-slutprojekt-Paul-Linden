@@ -5,8 +5,10 @@ import controller.ProductionHandler;
 import javax.swing.*;
 import java.awt.*;
 
+//Class that creates tha progressbar for the realtime quantity of buffer
 public class BufferQuantityProgressBar {
     static boolean isCrit = false;
+
     protected static JProgressBar bufferQuantityProgressbar(ProductionHandler productionHandler) {
 
         JProgressBar progressBar = new JProgressBar();
@@ -19,6 +21,7 @@ public class BufferQuantityProgressBar {
 
         return progressBar;
     }
+
     private static void bufferQuantityUpdater(JProgressBar progressBar, ProductionHandler productionHandler) {
         int bufferSize = productionHandler.retrieveBufferMaxSize();
         SwingWorker<Void, Void> worker = new SwingWorker<>() {

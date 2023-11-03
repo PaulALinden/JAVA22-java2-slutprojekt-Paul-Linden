@@ -5,6 +5,8 @@ import java.awt.*;
 
 import static controller.FileHandler.readLogg;
 
+// Class that creates the gui for the text logg
+
 public class LoggPane {
 
     public static JScrollPane loggPane() {
@@ -17,11 +19,13 @@ public class LoggPane {
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
 
-        SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
+        SwingWorker<Void, Void> worker = new SwingWorker<>() {
             @Override
             protected Void doInBackground() throws Exception {
+                //noinspection InfiniteLoopStatement
                 while (true) {
                     readLogg(loggTextPane);
+                    //noinspection BusyWait
                     Thread.sleep(1000);
                 }
             }

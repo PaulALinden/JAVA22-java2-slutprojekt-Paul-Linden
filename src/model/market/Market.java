@@ -1,6 +1,5 @@
 package model.market;
 
-import model.units.Buffer;
 import model.units.Unit;
 
 import java.io.Serializable;
@@ -19,11 +18,8 @@ public class Market implements Serializable {
         return currentQue;
     }
 
-    public void setCurrentQue(BlockingQueue<Unit> currentQue) {
-        this.currentQue = currentQue;
-    }
-
     BlockingQueue<Unit> currentQue = buffer.getBufferQue();
+
     public Market() {
         this.producers = new ArrayList<>();
         this.consumers = new ArrayList<>();
@@ -32,15 +28,19 @@ public class Market implements Serializable {
     public void addProducer(Producer producer) {
         producers.add(producer);
     }
+
     public void addConsumer(Consumer consumer) {
         consumers.add(consumer);
     }
+
     public List<Producer> getProducers() {
         return producers;
     }
+
     public List<Consumer> getConsumers() {
         return consumers;
     }
+
     @Override
     public String toString() {
         return "Market{" +
