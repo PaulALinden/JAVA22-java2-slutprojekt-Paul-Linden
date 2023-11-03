@@ -7,8 +7,8 @@ import java.util.concurrent.BlockingQueue;
 public class Buffer implements Serializable {
 
     private static volatile Buffer buffer;
-    private int maxSize;
-    private BlockingQueue<Unit> bufferQue;
+    private final int maxSize;
+    private final BlockingQueue<Unit> bufferQue;
 
     private Buffer (int maxSize){
         this.maxSize = maxSize;
@@ -25,7 +25,6 @@ public class Buffer implements Serializable {
         }
         return buffer;
     }
-
     public int getBufferSize() {
         return bufferQue.size();
     }

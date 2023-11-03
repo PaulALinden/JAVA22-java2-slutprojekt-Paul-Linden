@@ -17,7 +17,7 @@ public class MarketHandler {
     }
 
     public void saveMarketCurrentState(){
-        boolean isSaved = writeObjectData(market,"src/logg/marketData.txt");
+        boolean isSaved = writeObjectData(market);
 
         if (isSaved) {
             writeLogg("Current state saved.");
@@ -26,7 +26,7 @@ public class MarketHandler {
         }
     }
     public void loadMarketCurrentState(){
-        Market currentState = (Market) readObjectData("src/logg/marketData.txt");
+        Market currentState = (Market) readObjectData();
 
         if (currentState != null) {
             market = currentState;

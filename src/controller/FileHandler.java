@@ -1,5 +1,6 @@
 package controller;
 
+import model.LoggModel;
 import model.market.Market;
 
 import javax.swing.*;
@@ -10,10 +11,28 @@ import java.util.List;
 
 public class FileHandler implements Serializable {
 
-    public static Object readObjectData(String path) {
+    static FileHandler fileHandler;
+    static LoggModel textLogg;
+    static LoggModel saveState;
+
+    public FileHandler(LoggModel textLogg, LoggModel saveState) {
+        FileHandler.textLogg = textLogg;
+        FileHandler.saveState = saveState;
+    }
+
+    public static FileHandler getInstance(LoggModel textLogg,LoggModel saveState) {
+
+        if (fileHandler == null) {
+            fileHandler = new FileHandler(textLogg, saveState);
+        }
+
+        return fileHandler;
+    }
+
+    public static Object readObjectData() {
 
         Object messageObject = null;
-        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(path))) {
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(saveState.getFilePath()))) {
             messageObject = ois.readObject();
         } catch (Exception e) {
             e.printStackTrace();
@@ -21,8 +40,8 @@ public class FileHandler implements Serializable {
         return messageObject;
     }
 
-    public static boolean writeObjectData(Market stringObject, String path) {
-        try (ObjectOutputStream ous = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream(path)))) {
+    public static boolean writeObjectData(Market stringObject) {
+        try (ObjectOutputStream ous = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream(saveState.getFilePath())))) {
             ous.writeObject(stringObject);
         } catch (Exception e) {
             System.out.println(e);
@@ -32,7 +51,7 @@ public class FileHandler implements Serializable {
     }
 
     public static void writeLogg(String loggString) {
-        try (BufferedWriter br = new BufferedWriter(new FileWriter("src/logg/logg.txt", true))) {
+        try (BufferedWriter br = new BufferedWriter(new FileWriter(textLogg.getFilePath(), true))) {
             br.write(loggString);
             br.newLine();
             br.flush();
@@ -44,7 +63,7 @@ public class FileHandler implements Serializable {
     public static void readLogg(JTextPane textPane) {
         List<String> lines = new ArrayList<>();
 
-        try (BufferedReader br = new BufferedReader(new FileReader("src/logg/logg.txt"))) {
+        try (BufferedReader br = new BufferedReader(new FileReader(textLogg.getFilePath()))) {
             String line = br.readLine();
             while (line != null) {
                 lines.add(line);
