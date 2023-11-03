@@ -1,7 +1,7 @@
 #Producer-Consumer 
 
 Simpel producer-consumer project with MVC-structure.
-Contains handling of threads & singelton pattern.
+Contains producer-consumer pattern, handling of threads & singelton pattern.
 
 My solution was to keep the project as simpel as possible and to apply single responsibility principle.
 - Model is responsible for managing the data and business logic.
